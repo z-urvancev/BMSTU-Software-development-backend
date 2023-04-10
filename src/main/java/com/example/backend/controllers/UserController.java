@@ -46,17 +46,16 @@ public class UserController {
         try {
             User nc = userRepository.save(user);
             return new ResponseEntity<Object>(nc, HttpStatus.OK);
-        }
-        catch(Exception ex) {
+        } catch (Exception ex) {
             String error;
-            if (ex.getMessage().contains("countries.name_UNIQUE"))
-                error = "countyalreadyexists";
+            if (ex.getMessage().contains("users.name_UNIQUE"))
+                error = "useralreadyexists";
             else
                 error = "undefinederror";
             Map<String, String>
-                    map =  new HashMap<>();
+                    map = new HashMap<>();
             map.put("error", error);
-            return new ResponseEntity<Object> (map, HttpStatus.OK);
+            return new ResponseEntity<Object>(map, HttpStatus.OK);
         }
     }
 
@@ -70,8 +69,7 @@ public class UserController {
         if (user.isPresent()) {
             userRepository.delete(user.get());
             resp.put("deleted", Boolean.TRUE);
-        }
-        else
+        } else
             resp.put("deleted", Boolean.FALSE);
         return ResponseEntity.ok(resp);
     }
@@ -125,7 +123,6 @@ public class UserController {
     getAllUsers() {
         return userRepository.findAll();
     }
-
 
 
 }

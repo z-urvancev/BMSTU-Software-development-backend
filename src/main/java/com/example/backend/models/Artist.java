@@ -20,8 +20,8 @@ public class Artist {
     @Column(name = "name", nullable = false, unique = true)
     public String name;
 
-    @Column(name = "century", nullable = false)
-    public String century;
+    @Column(name = "age", nullable = false)
+    public String age;
 
     @ManyToOne()
     @JoinColumn(name = "countryid", nullable = false)
