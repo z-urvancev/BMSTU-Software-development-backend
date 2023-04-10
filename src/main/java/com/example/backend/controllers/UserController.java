@@ -77,33 +77,44 @@ public class UserController {
 
     @PostMapping("/users/{id}/addmuseums")
     public ResponseEntity<Object> addMuseums(@PathVariable(value = "id") Long userId,
-                                             @RequestBody Museum museum) {
+                                             @RequestBody Set<Museum> museums) {
         Optional<User> uu = userRepository.findById(userId);
+        int cnt = 0;
         if (uu.isPresent()) {
             User u = uu.get();
-            Optional<Museum> mm = museumRepository.findById(museum.id);
-            mm.ifPresent(u::addMuseum);
-            userRepository.save(u);
-        }
-        return new ResponseEntity<>("successful added", HttpStatus.OK);
-    }
-
-
-    @PostMapping("/users/{id}/removemuseums")
-    public ResponseEntity<Object> removeMuseums(@PathVariable(value = "id") Long userId,
-                                                @RequestBody Set<Long> museums_id) {
-        Optional<User> uu = userRepository.findById(userId);
-        if (uu.isPresent()) {
-            User u = uu.get();
-            for (Long m : museums_id) {
-                Optional<Museum> mm = museumRepository.findById(m);
+            for (Museum m : museums) {
+                Optional<Museum>
+                        mm = museumRepository.findById(m.id);
                 if (mm.isPresent()) {
-                    u.removeMuseum(mm.get());
+                    u.addMuseum(mm.get());
+                    ++cnt;
                 }
             }
             userRepository.save(u);
         }
-        return new ResponseEntity<>("Deletion successful", HttpStatus.OK);
+        Map<String, String> response = new HashMap<>();
+        response.put("count", String.valueOf(cnt));
+        return ResponseEntity.ok(response);
+    }
+
+
+
+    @PostMapping("/users/{id}/removemuseums")
+    public ResponseEntity<Object> removeMuseums(@PathVariable(value = "id") Long userId,
+                                                @RequestBody Set<Museum> museums) {
+        Optional<User> uu = userRepository.findById(userId);
+        int cnt = 0;
+        if (uu.isPresent()) {
+            User u = uu.get();
+            for (Museum m : u.museums) {
+                u.removeMuseum(m);
+                cnt++;
+            }
+            userRepository.save(u);
+        }
+        Map<String, String> response = new HashMap<>();
+        response.put("count", String.valueOf(cnt));
+        return ResponseEntity.ok(response);
     }
 
 
