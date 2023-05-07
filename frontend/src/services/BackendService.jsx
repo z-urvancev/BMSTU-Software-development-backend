@@ -45,5 +45,4 @@ axios.interceptors.response.use(undefined,
             showError(error.message)
         return Promise.reject(error);
     })
-
 export default new BackendService()

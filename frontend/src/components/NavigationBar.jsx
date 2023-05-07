@@ -30,6 +30,7 @@ class NavigationBarClass extends React.Component {
     }
 
     render() {
+        let uname = Utils.getUserName();
         return (
             <Navbar bg="light" expand="lg">
                 <Navbar.Brand><FontAwesomeIcon icon={faHome} />{' '}My RPO</Navbar.Brand>
@@ -42,6 +43,11 @@ class NavigationBarClass extends React.Component {
                         <Nav.Link onClick={this.goHome}>Another home</Nav.Link>
                         <Nav.Link onClick={() => { this.props.history.push("/home")}} >Yet another home</Nav.Link>
                     </Nav>
+                    <Navbar.Text className='me-2'>{uname}</Navbar.Text>
+                    {uname && <Nav.Link className="me-2" onClick={this.logout}><FontAwesomeIcon icon={faUser}
+                                                                                                fixedWidth/>{' '}Выход</Nav.Link>}
+                    {!uname && <Nav.Link className="me-2" as={Link} to="/login"><FontAwesomeIcon icon={faUser}
+                                                                                                 fixedWidth/>{' '}Вход</Nav.Link>}
                 </Navbar.Collapse>
                 <Navbar.Text>{this.props.user && this.props.user.login}</Navbar.Text>
                 { this.props.user &&

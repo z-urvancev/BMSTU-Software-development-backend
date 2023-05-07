@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.backend.repositories.UserRepository;
 import com.example.backend.tools.Utils;
 
-//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/auth")
 public class LoginController {
