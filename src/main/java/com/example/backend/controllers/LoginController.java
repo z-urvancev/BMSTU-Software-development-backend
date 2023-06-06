@@ -31,18 +31,15 @@ public class LoginController {
                 String salt = u2.salt;
                 String hash2 = Utils.ComputeHash(pwd, salt);
                 if (hash1.equalsIgnoreCase(hash2)) {
-                    String token = UUID.randomUUID().toString();
-                    u2.token = token;
+                    u2.token = UUID.randomUUID().toString();
                     u2.activity = LocalDateTime.now();
                     User u3 = userRepository.saveAndFlush(u2);
-                    u3.token = token;
                     return new ResponseEntity<>(u3, HttpStatus.OK);
                 }
             }
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
-
     @GetMapping("/logout")
     public ResponseEntity<Object> logout(@RequestHeader(value = "Authorization", required = false) String token) {
         if (token != null && !token.isEmpty()) {

@@ -1,11 +1,12 @@
 import React from 'react';
-import {Navbar, Nav} from 'react-bootstrap'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faHome, faUser} from '@fortawesome/free-solid-svg-icons'
+import { Navbar, Nav } from 'react-bootstrap'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faBars, faHome, faUser} from '@fortawesome/free-solid-svg-icons'
 import {Link, useNavigate} from 'react-router-dom';
 import Utils from "../utils/Utils";
-import {connect} from 'react-redux';
 import BackendService from "../services/BackendService";
+// import axios from "axios";
+import {connect} from "react-redux";
 import {userActions} from "../utils/Rdx";
 
 class NavigationBarClass extends React.Component {
@@ -17,7 +18,7 @@ class NavigationBarClass extends React.Component {
     }
 
     goHome() {
-        this.props.navigate('Home');
+        this.props.navigate('/home');
     }
 
     logout() {
@@ -32,14 +33,17 @@ class NavigationBarClass extends React.Component {
     render() {
         return (
             <Navbar bg="light" expand="lg">
-                <Navbar.Brand><FontAwesomeIcon icon={faHome} />{' '}My RPO</Navbar.Brand>
+                <button type="button"
+                        className="btn btn-outline-secondary mr-2"
+                        onClick={this.props.toggleSideBar}>
+                    <FontAwesomeIcon icon={faBars} />
+                </button>
                 <Navbar.Brand>myRPO</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ms-auto">
-                        {/*<Nav.Link href="/home">Home</Nav.Link>*/}
                         <Nav.Link as={Link} to="/home">Home</Nav.Link>
-                        <Nav.Link onClick={this.goHome}>Another home</Nav.Link>
+                        <Nav.Link onClick={this.goHome}>Another home</Nav.Link>D
                         <Nav.Link onClick={this.goHome}>Yet another home</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
@@ -57,13 +61,13 @@ class NavigationBarClass extends React.Component {
 
 const NavigationBar = props => {
     const navigate = useNavigate()
-
     return <NavigationBarClass navigate={navigate} {...props} />
 }
+// export default  NavigationBar;
 
-const mapStateToProps = state => {
-    const { user } = state.authentication;
+const mapDispatchToProps = dispatch => {
+    const { user } = dispatch.authentication;
     return { user };
 }
 
-export default  connect(mapStateToProps)(NavigationBar);
+export default  connect(mapDispatchToProps)(NavigationBar);
