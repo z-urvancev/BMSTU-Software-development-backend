@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import BackendService from '../services/BackendService';
-import Utils from "../utils/Utils";
+// import Utils from "../utils/Utils";
 import {useNavigate} from "react-router-dom";
-import {connect, useDispatch} from "react-redux";
+import {connect, useDispatch} from 'react-redux'
 import {userActions} from "../utils/Rdx";
 
 export default connect()(function Login() {
@@ -43,32 +43,33 @@ export default connect()(function Login() {
             })
     }
 
-    return  (
-        <div className="col-md-6 me-0 mt-3">
+    return (
+        <div className="col-md-6 me-0">
             {/*{error_message &&*/}
             {/*    <div className="alert alert-danger mt-1 me-0 ms-0">{error_message}</div>}*/}
             <h2>Вход</h2>
             <form name="form" onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="username">Логин</label>
-                    <input type="text" className={'form-control' + (submitted && !username ? ' is-invalid' : '' )}
+                    <input type="text" className={'form-control' + (submitted && !username ? ' is-invalid' : '')}
                            name="username" value={username}
-                           onChange={handleChangeLogin} />
+                           onChange={handleChangeLogin}/>
                     {submitted && !username && <div className="help-block text-danger">Введите имя пользователя</div>}
                 </div>
                 <div className="form-group">
                     <label htmlFor="password">Пароль</label>
-                    <input type="password" className={'form-control' + (submitted && !password ? ' is-invalid' : '' )}
+                    <input type="password" className={'form-control' + (submitted && !password ? ' is-invalid' : '')}
                            name="password" value={password}
-                           onChange={handleChangePassword} />
+                           onChange={handleChangePassword}/>
                     {submitted && !password &&
                         <div className="help-block text-danger">Введите пароль</div>
                     }
                 </div>
                 <div className="form-group mt-2">
                     <button className="btn btn-primary">
+                        {loggingIn &&
+                            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>}
                         Вход
-                        {loggingIn && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>}
                     </button>
                 </div>
             </form>
