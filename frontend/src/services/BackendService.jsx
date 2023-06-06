@@ -12,10 +12,11 @@ class BackendService {
     }
 
     logout() {
-        return axios.get(`${AUTH_URL}/logout`, {headers : {Authorization :
-                    Utils.getToken()}})
+        return axios.get(`${AUTH_URL}/logout`, { headers : {Authorization : Utils.getToken()}})
     }
 }
+
+export default new BackendService()
 
 function showError(msg)
 {
@@ -45,4 +46,3 @@ axios.interceptors.response.use(undefined,
             showError(error.message)
         return Promise.reject(error);
     })
-export default new BackendService()

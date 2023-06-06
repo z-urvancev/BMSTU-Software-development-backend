@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import BackendService from '../services/BackendService';
 import Utils from "../utils/Utils";
 import {useNavigate} from "react-router-dom";
-import {connect} from "react-redux";
+import {connect, useDispatch} from "react-redux";
 import {userActions} from "../utils/Rdx";
 
 export default connect()(function Login() {
@@ -12,6 +12,7 @@ export default connect()(function Login() {
     const [submitted, setSubmitted] = useState(false);
     // const [error_message, setErrorMessage] = useState(null);
     const nav = useNavigate();
+    const dispatch = useDispatch();
 
     function handleChangeLogin(e) {
         setUsername(e.target.value);
@@ -30,7 +31,7 @@ export default connect()(function Login() {
             .then ( resp => {
                 console.log(resp.data);
                 setLoggingIn(false);
-                this.dispatch(userActions.login(resp.data))
+                dispatch(userActions.login(resp.data))
                 nav("/home");
             })
             .catch( err => {
