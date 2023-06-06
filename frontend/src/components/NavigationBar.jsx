@@ -25,12 +25,11 @@ class NavigationBarClass extends React.Component {
             .then(() => {
                 Utils.removeUser();
                 this.props.dispatch(userActions.logout())
-                this.props.navigate('Login');
+                this.props.navigate('/login');
             })
     }
 
     render() {
-        let uname = Utils.getUserName();
         return (
             <Navbar bg="light" expand="lg">
                 <Navbar.Brand><FontAwesomeIcon icon={faHome} />{' '}My RPO</Navbar.Brand>
@@ -41,20 +40,15 @@ class NavigationBarClass extends React.Component {
                         {/*<Nav.Link href="/home">Home</Nav.Link>*/}
                         <Nav.Link as={Link} to="/home">Home</Nav.Link>
                         <Nav.Link onClick={this.goHome}>Another home</Nav.Link>
-                        <Nav.Link onClick={() => { this.props.history.push("/home")}} >Yet another home</Nav.Link>
+                        <Nav.Link onClick={this.goHome}>Yet another home</Nav.Link>
                     </Nav>
-                    <Navbar.Text className='me-2'>{uname}</Navbar.Text>
-                    {uname && <Nav.Link className="me-2" onClick={this.logout}><FontAwesomeIcon icon={faUser}
-                                                                                                fixedWidth/>{' '}Выход</Nav.Link>}
-                    {!uname && <Nav.Link className="me-2" as={Link} to="/login"><FontAwesomeIcon icon={faUser}
-                                                                                                 fixedWidth/>{' '}Вход</Nav.Link>}
                 </Navbar.Collapse>
                 <Navbar.Text>{this.props.user && this.props.user.login}</Navbar.Text>
                 { this.props.user &&
                     <Nav.Link onClick={this.logout}><FontAwesomeIcon icon={faUser} fixedWidth />{' '}Выход</Nav.Link>
                 }
                 { !this.props.user &&
-                    <Nav.Link as={Link} to="/login"><FontAwesomeIcon icon={faUser} fixedWidth />{' '}Вход</Nav.Link>
+                    <Nav.Link a={Link} to="/login"><FontAwesomeIcon icon={faUser} fixedWidth />{' '}Вход</Nav.Link>
                 }
             </Navbar>
         );

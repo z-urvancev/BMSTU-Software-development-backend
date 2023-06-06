@@ -12,21 +12,16 @@ import com.example.backend.repositories.UserRepository;
 
 import java.util.*;
 
-@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/v1")
 public class UserController {
-
     @Autowired
     UserRepository userRepository;
-
-    @Autowired
     MuseumRepository museumRepository;
 
     @PutMapping("/users/{id}")
     public ResponseEntity<User> updateUser(@PathVariable(value = "id") Long userId,
                                            @RequestBody User userDetails) {
-
         User user = null;
         Optional<User>
                 uu = userRepository.findById(userId);
@@ -60,7 +55,6 @@ public class UserController {
         }
     }
 
-
     @DeleteMapping("/users/{id}")
     public ResponseEntity<Object> deleteUser(@PathVariable(value = "id") Long userId) {
         Optional<User>
@@ -75,7 +69,6 @@ public class UserController {
         return ResponseEntity.ok(resp);
     }
 
-
     @PostMapping("/users/{id}/addmuseums")
     public ResponseEntity<Object> addMuseums(@PathVariable(value = "id") Long userId,
                                              @RequestBody Set<Museum> museums) {
@@ -87,8 +80,8 @@ public class UserController {
                 Optional<Museum>
                         mm = museumRepository.findById(m.id);
                 if (mm.isPresent()) {
-                    u.addMuseum(mm.get());
-                    ++cnt;
+                    u.museums.add(mm.get());
+                    cnt++;
                 }
             }
             userRepository.save(u);
@@ -97,8 +90,6 @@ public class UserController {
         response.put("count", String.valueOf(cnt));
         return ResponseEntity.ok(response);
     }
-
-
 
     @PostMapping("/users/{id}/removemuseums")
     public ResponseEntity<Object> removeMuseums(@PathVariable(value = "id") Long userId,
@@ -118,12 +109,9 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
-
     @GetMapping("/users")
     public List
     getAllUsers() {
         return userRepository.findAll();
     }
-
-
 }

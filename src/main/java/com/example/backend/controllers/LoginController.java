@@ -1,19 +1,16 @@
 package com.example.backend.controllers;
 
-import java.time.LocalDateTime;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
-
+import com.example.backend.models.User;
+import com.example.backend.tools.Utils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import com.example.backend.models.User;
 import org.springframework.web.bind.annotation.*;
-
 import com.example.backend.repositories.UserRepository;
-import com.example.backend.tools.Utils;
+
+import java.time.LocalDateTime;
+import java.util.*;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -33,16 +30,17 @@ public class LoginController {
                 String hash1 = u2.password;
                 String salt = u2.salt;
                 String hash2 = Utils.ComputeHash(pwd, salt);
-                if (hash1.toLowerCase().equals(hash2.toLowerCase())) {
+                if (hash1.equalsIgnoreCase(hash2)) {
                     String token = UUID.randomUUID().toString();
                     u2.token = token;
                     u2.activity = LocalDateTime.now();
                     User u3 = userRepository.saveAndFlush(u2);
-                    return new ResponseEntity<Object>(u3, HttpStatus.OK);
+                    u3.token = token;
+                    return new ResponseEntity<>(u3, HttpStatus.OK);
                 }
             }
         }
-        return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @GetMapping("/logout")
@@ -54,9 +52,9 @@ public class LoginController {
                 User u = uu.get();
                 u.token = null;
                 userRepository.save(u);
-                return new ResponseEntity<Object>(HttpStatus.OK);
+                return new ResponseEntity<>(HttpStatus.OK);
             }
         }
-        return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 }
