@@ -43,8 +43,8 @@ class NavigationBarClass extends React.Component {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ms-auto">
                         <Nav.Link as={Link} to="/home">Home</Nav.Link>
-                        <Nav.Link onClick={this.goHome}>Another home</Nav.Link>D
-                        <Nav.Link onClick={this.goHome}>Yet another home</Nav.Link>
+                        <Nav.Link onClick={this.goHome}>Another home</Nav.Link>
+                        <Nav.Link as={Link} to="/account">{this.props.user && this.props.user.login}</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
                 <Navbar.Text>{this.props.user && this.props.user.login}</Navbar.Text>
