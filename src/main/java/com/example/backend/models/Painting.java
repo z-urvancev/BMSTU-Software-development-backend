@@ -11,4 +11,7 @@ public class Painting {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
     public long id;
+
+    @Column(name = "name", nullable = false)
+    public String name;
 }
